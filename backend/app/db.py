@@ -4,7 +4,19 @@ from datetime import datetime
 from sqlalchemy import DateTime, String, Text, UniqueConstraint, create_engine, delete, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 
-from .config import DATABASE_URL
+from .config import DATABASE_URL as _RAW_URL
+
+
+def _normalize(url: str) -> str:
+    """Render/Heroku emit `postgres://`; SQLAlchemy 2.x needs an explicit psycopg3 dialect."""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+psycopg://", 1)
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+    return url
+
+
+DATABASE_URL = _normalize(_RAW_URL)
 
 _connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 engine = create_engine(DATABASE_URL, connect_args=_connect_args, pool_pre_ping=True)
