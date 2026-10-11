@@ -5,8 +5,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-GROQ_FAST_MODEL = os.getenv("GROQ_FAST_MODEL", "llama-3.1-8b-instant")
+# Llama 3.x models were retired on Groq's free/dev tiers (Aug 2026). GPT-OSS is the
+# recommended replacement and supports tools + json_mode.
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")          # conversation + tools
+GROQ_FAST_MODEL = os.getenv("GROQ_FAST_MODEL", "openai/gpt-oss-20b")  # memory extraction
+# GPT-OSS models reason before answering; "low" keeps voice latency down.
+GROQ_REASONING_EFFORT = os.getenv("GROQ_REASONING_EFFORT", "low")
 
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY", "")
 ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
