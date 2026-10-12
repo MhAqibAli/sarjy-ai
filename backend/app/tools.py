@@ -62,7 +62,7 @@ TOOLS = [
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "city": {"type": "string", "description": "City name, e.g. 'Karachi'"}
+                    "city": {"type": "string", "description": "City name, e.g. 'Lahore'"}
                 },
                 "required": ["city"],
             },
